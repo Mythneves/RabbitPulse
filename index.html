@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RabbitPulse – The Legend Begins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --purple: #a958ff;
+      --aqua: #66ffe0;
+      --text: #eaeaea;
+      --bg: #0b0b0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Unbounded', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;           /* space between logo image and text */
+    }
+
+    .logo img {
+      height: clamp(32px, 8vw, 52px);
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 0 24px rgba(169, 88, 255, 0.6));
+    }
+
+    .logo a {
+  color: var(--purple);
+  text-decoration: none;
+  background: linear-gradient(90deg, var(--aqua), var(--purple));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+    header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+header h1 {
+  font-size: clamp(1rem, 4vw, 1.8rem);
+  color: var(--purple);
+  white-space: nowrap;
+}
+
+nav ul {
+  display: flex;
+  gap: 0.1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+
+nav li {
+  white-space: nowrap;
+  position: relative;
+  padding: 0.5rem 0.65rem;
+}
+
+nav a {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: clamp(0.65rem, 2vw, 1rem);
+  padding: 0;
+  display: inline-block;
+  position: relative;
+  width:fit-content;
+}
+
+nav a:hover,
+nav a:focus-visible{
+  background: linear-gradient(90deg, var(--aqua), var(--purple));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -6px;
+      width: 0;
+      height: 1.2px;  
+      background: linear-gradient(90deg, var(--aqua) 0%, var(--purple) 100%);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+/* Button hidden on large screens */
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}
+
+/* Simple hamburger icon (3 bars) */
+.menu-bars {
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: var(--text);
+  position: relative;
+  margin: 0 auto;
+}
+.menu-bars::before,
+.menu-bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background: var(--text);
+}
+.menu-bars::before { top: -8px; }
+.menu-bars::after  { top:  8px; }
+
+/* Small screens: hamburger + dropdown */
+@media (max-width: 1366px) {
+  .menu-toggle { display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Hide nav by default */
+  .site-nav { display: none; width: 100%; }
+
+  /* When open, show nav stacked */
+  .site-nav.is-open { 
+    display: block; 
+    position: absolute;
+    overflow: hidden;
+    top: 100%;
+    right: 1rem;                  /* distance from right edge */
+    width: min(200px, 60vw);      /* smaller window */
+    background: #000;
+    padding: 0.75rem;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    z-index: 2000;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    padding: 0.75rem 0;
+    white-space: nowrap;
+  }
+
+  nav a {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+  }
+}
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin-top: 60px;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(1.5rem, 8vw, 3rem);
+      color: var(--purple);
+      text-shadow: 0 0 18px var(--purple);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      display: inline-block;
+      max-width: 100%;
+      line-height: 1.2;
+    }
+
+    .hero-content p {
+      font-size: clamp(1rem, 4vw, 2rem);
+      margin: 1.5rem 0;
+      line-height: 1.5;
+      max-width: 90vw;
+    }
+
+    .hero-btn {
+      background-color: var(--purple);
+      color: var(--bg);
+      padding: clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      box-shadow: 0 0 12px var(--purple);
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+      display: inline-block;
+      min-height: 44px;
+      min-width: 44px;
+      touch-action: manipulation;
+    }
+
+    .hero-btn:hover,
+    .hero-btn:active,
+    .hero-btn:focus {
+      box-shadow: 0 0 18px var(--purple);
+      transform: scale(1.05);
+      background-color: var(--purple);
+      outline: 2px solid var(--purple);
+      outline-offset: 2px;
+    }
+
+    .marshal-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(1.5rem, 5vw, 3rem);
+      padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 2rem);
+      background-color: rgba(0, 0, 0, 1);
+      border-radius: 20px;
+      margin: 2rem clamp(2.5rem, 5vw, 15rem);
+      box-shadow: 0 0 25px rgba(102, 230, 255, 0.20);
+    }
+
+    .marshal-image {
+      width: clamp(150px, 60vw, 280px);
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(169, 88, 255, 0.4);
+      animation: fadeGlow 3s ease-in-out infinite;
+    }
+    @keyframes fadeGlow {
+    0%   { box-shadow: 0 0 10px rgba(169, 88, 255, 0.2); transform: scale(1); }
+    50%  { box-shadow: 0 0 40px rgba(169, 88, 255, 0.9); transform: scale(1.015);}
+    100% { box-shadow: 0 0 10px rgba(169, 88, 255, 0.2); transform: scale(1);}
+}
+
+    .marshal-text {
+      max-width: 600px;
+      text-align: left;
+    }
+
+    .marshal-text h2 {
+      color: var(--purple);
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .marshal-text p {
+      margin-bottom: 1rem;
+      font-size: clamp(0.95rem, 2vw, 1rem);
+      line-height: 1.6;
+    }
+
+    .section-divider {
+      height: 100px; /* Consistent height for dividers */
+      background: linear-gradient(90deg, transparent, rgba(169, 88, 255, 0.25), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pulse-message {
+  padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 4vw, 6rem);
+  text-align: center;
+  font-family: 'Unbounded', sans-serif;
+  background-color: rgba(0, 0, 0, 0.0);
+}
+
+.pulse-line {
+  font-size: clamp(1rem, 4vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.pulse-line-1 {
+  color: var(--purple);
+  animation: fadeScroll1 15s ease-in-out infinite;
+}
+
+.pulse-line-2 {
+  color: white;
+  animation: fadeScroll2 15s ease-in-out infinite;
+  animation-delay: 1s;
+}
+  @keyframes fadeScroll1 {
+  0%   { opacity: 0; transform: translateY(20px); }
+  50%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+  @keyframes fadeScroll2 {
+  0%   { opacity: 0; transform: translateY(40px); }
+  50%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-40px); }
+}
+
+.pulse-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 5vw, 16rem);
+  padding: clamp(2rem, 4vw, 2rem) clamp(1rem, 4vw, 6rem);
+  border-radius: 20px;
+  margin: 2rem clamp(2.5rem, 5vw, 22rem);
+}
+
+.pulse-text {
+  flex: 0 0 50%;
+  max-width: 50%;
+  text-align: left;
+  padding-left: 2rem;
+}
+
+.pulse-text h2 {
+  color: var(--purple);
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.pulse-text p {
+  margin-bottom: 1rem;
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  line-height: 1.6;
+}
+
+.pulse-text .hero-btn {
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.pulse-images {
+  flex: 0 0 50%;
+  max-width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-right: 1rem;
+}
+
+.pulse-images img {
+  width: clamp(150px, 60vw, 40%);
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(169, 88, 255, 0.4);
+}
+
+.riders-bikers-merged {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  flex-direction: unset;
+  flex-wrap: unset;
+  align-items: unset;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.riders-bikers-merged > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.8rem;
+  background: rgba(0, 0, 0, 1);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-height: 320px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(102, 230, 255, 0.20);
+}
+
+.riders-bikers-merged > div::before {
+  content: "";
+  position: absolute;
+  inset: -80px -80px auto auto;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.24;
+  pointer-events: none;
+  transform: translate(20%, -20%);
+}
+
+.riders-bikers-merged > div:nth-child(1)::before,
+.riders-bikers-merged > div:nth-child(2)::before {
+  background: rgba(169, 88, 255, 1);
+}
+
+.riders-bikers-merged .pulse-text {
+  flex: unset !important;
+  max-width: unset !important;
+  padding-left: 0 !important;
+  order: 1;
+  display: block;
+}
+
+.riders-bikers-merged .pulse-text h2 {
+  color: var(--purple);
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  margin: 0 0 1rem 0;
+  text-shadow: 0 0 14px rgba(169, 88, 255, 0.4);
+}
+
+.riders-bikers-merged .pulse-text p {
+  margin: 0.75rem 0 0 0;
+  color: rgba(234, 234, 234, 0.82);
+  line-height: 1.65;
+  font-size: clamp(0.95rem, 2vw, 1rem);
+}
+
+.riders-bikers-merged .pulse-images {
+  flex: unset !important;
+  max-width: unset !important;
+  padding-right: 0 !important;
+  order: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.riders-bikers-merged .pulse-images img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(169, 88, 255, 0.4);
+}
+
+.riders-bikers-merged .hero-btn {
+  margin-top: 1.2rem;
+  display: inline-block;
+}
+  .slide-in-left {
+    opacity: 0;
+    /* Avoid translateX(-100%) which can keep the element fully off-screen on some mobile browsers,
+       preventing IntersectionObserver from ever marking it visible. */
+    transform: translateX(-48px);
+    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    will-change: transform, opacity;
+  }
+  .slide-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+    /* ===== SIMPLIFIED RESPONSIVE DESIGN ===== */
+    @media (max-width: 1024px) {
+      .riders-bikers-merged {
+        grid-template-columns: 1fr;
+      }
+
+      .riders-bikers-merged > div {
+        padding: 1.5rem;
+      }
+
+      .riders-bikers-merged .pulse-images img {
+        max-width: 250px;
+      }
+
+      .marshal-section,
+      .rabbit-hole-section {
+        flex-direction: column;
+      }
+
+      .pulse-section {
+        flex-direction: column;
+      }
+
+      .video-cta-container {
+        flex-direction: column;
+      }
+      
+    }
+
+    @media (max-width: 768px) {
+      header {
+        gap: 0.5rem;
+      }
+
+      nav a {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.5rem;
+      }
+
+      .pulse-text {
+        padding-left: 0;
+      }
+
+      .pulse-images {
+        padding-right: 0;
+      }
+
+        .video-cta-section {
+    margin: 2rem 1rem; /* instead of min 2.5rem each side */
+      }
+    }
+
+    @media (max-width: 480px) {
+      /* Fluid typography and spacing via clamp() handles most mobile needs */
+      nav ul {
+        gap: 0.4rem;
+      }
+
+      nav a {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.35rem;
+      }
+    }
+    html {
+    scroll-behavior: smooth;    
+    scroll-padding-top: 80px; /* match your header height */
+  }
+    .glyph-container, #dustCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index:-1;
+    }
+  
+    @keyframes floatGlyph {
+      0% { transform: translateY(0) scale(1); opacity: 0; }
+      10% { opacity: 1; }
+      50% { transform: translateY(-100px) scale(1.2); opacity: 0.6; }
+      100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+    }
+
+.zoom-in {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.8s ease-out;
+}
+.zoom-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.rabbit-hole-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 1);
+  border-radius: 20px;
+  margin: 2rem clamp(2.5rem, 5vw, 15rem);
+  flex-wrap: wrap;
+  gap: clamp(2rem, 5vw, 3rem);
+  padding: clamp(1rem, 3vw, 2rem);
+  box-shadow: 0 0 25px rgba(102, 255, 224, 0.14);
+}
+
+.rabbit-hole-section img {
+  width: clamp(150px, 60vw, 280px);
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(169, 88, 255, 0.4);
+  transition: transform 1.2s ease-in-out, opacity 1.2s ease-in-out;
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.rabbit-hole-text {
+  max-width: 720px;
+  color: white;
+  text-align: left;
+}
+
+.rabbit-hole-text h2 {
+  color: var(--purple);
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.rabbit-hole-text p {
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.rabbit-hole-text .hero-btn {
+  margin-top: 1.5rem;
+}
+.pulsebound-section {
+  background-color: rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+  /* consider flex-start if you don't want vertical centering */
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  border-radius: 20px;
+  margin: 2rem clamp(2.5rem, 5vw, 15rem);
+  box-shadow: 0 0 25px rgba(102, 255, 224, 0.14);
+}
+
+.pulsebound-section h2 {
+  color: var(--purple);
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  margin-bottom: clamp(1.7rem, 5vw, 2.2rem);
+  text-align: center;
+}
+
+.pulsebound-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.9rem, 6vw, 5rem);
+  flex-wrap: wrap;
+}
+
+/* wrapper for "name + card" */
+.pulsebound-item {
+  width: clamp(120px, 35vw, 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pulsebound-name {
+  margin: 0 0 1.2rem 0;
+  color: var(--purple);
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 0 14px rgba(169, 88, 255, 0.55);
+}
+
+/* card owns sizing; image fills */
+.pulsebound-card {
+  width: 100%;
+  height: clamp(120px, 35vw, 200px);
+  perspective: 1000px;
+  cursor: pointer;
+  border-radius: 15px;
+
+  transition: transform 220ms ease;
+  transform: translateZ(0);
+}
+
+.pulsebound-card:hover {
+  transform: translateZ(0) scale(1.05);
+}
+
+.pulsebound-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  transform-style: preserve-3d;
+  transition: transform 650ms ease;
+}
+
+.pulsebound-card.is-flipped .pulsebound-inner {
+  transform: rotateY(180deg);
+}
+
+.pulsebound-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(169, 88, 255, 0.5);
+}
+
+.pulsebound-front {
+  display: flex;
+}
+
+.pulsebound-front .pulsebound-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.pulsebound-back {
+  transform: rotateY(180deg);
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 25px rgba(169, 88, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.pulsebound-back p {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  line-height: 1.35;
+}
+
+.video-cta-section {
+  background-color: rgba(0, 0, 0, 1);
+  border-radius: 20px;
+  margin: 2rem clamp(2.5rem, 5vw, 13rem);
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem);
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(102, 255, 224, 0.14);
+}
+
+.video-cta-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 3rem);  
+  max-width: 1200px;
+  width: 100%;
+}
+
+.video-box {
+  flex: 1;
+  width: 100%;
+  min-width: 0;     /* critical: allow shrinking inside small containers */
+  max-width: 100%;
+}
+
+.video-box video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(169, 88, 255, 0.4);
+  background-color: #000;
+}
+
+.video-text {
+  flex: 1;
+  color: var(--text);
+  text-align: left;
+}
+
+.video-text h2 {
+  color: var(--purple);
+  font-size: clamp(1.5rem, 6vw, 2.4rem);
+  margin-bottom: 1rem;
+}
+
+.video-text p {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.video-text .hero-btn {
+  display: inline-block;
+}
+
+.footer { 
+  position: relative;
+  background-color: #000;
+  padding: clamp(1.5rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+  text-align: center;
+  font-size: 1rem;
+  color: #eaeaea;
+  z-index: 1000;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;              /* add */
+  flex-direction: column;     /* add */
+  align-items: center;        /* add */
+  gap: clamp(0.75rem, 2vw, 1.25rem); /* add */
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: clamp(0.65rem, 2vw, 0.8rem);
+  opacity: 0.8;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 1.5rem);
+  margin-bottom: 0;
+}
+
+.social-icons a {
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+.social-logo {
+  width: clamp(22px, 3.5vw, 28px);
+  height: auto;
+  display: block;
+}
+
+
+.social-icons a:hover,
+.social-icons a:active,
+.social-icons a:focus {
+  transform: scale(1.3);
+  outline: 2px solid var(--purple);
+  border-radius: 50%;
+  outline-offset: 2px;
+}
+
+.marshal-text h2,
+.pulse-text h2,
+.riders-bikers-merged .pulse-text h2,
+.rabbit-hole-text h2,
+.pulsebound-section h2,
+.video-text h2 {
+  display: inline-block;
+  min-width: clamp(10ch, 16vw, 20ch);
+  background: linear-gradient(90deg, var(--aqua), var(--purple));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  /* optional: keep a subtle glow without “blurring” the gradient */
+  filter: drop-shadow(0 0 10px rgba(102, 255, 224, 0.18));
+  text-shadow: none;
+}
+
+</style>
+</head>
+<body>
+  <div class="glyph-container"></div>
+<canvas id="dustCanvas"></canvas>
+
+<header>
+  <div class="logo">
+    <img src="myLogo.png" alt="RabbitPulse Logo">
+    <a href="RabbitPulse_Refactored.html">
+      <h1>RabbitPulse</h1>
+    </a>
+  </div>
+
+  <button class="menu-toggle"
+          type="button"
+          aria-controls="site-nav"
+          aria-expanded="false"
+          aria-label="Open menu">
+    <span class="menu-bars" aria-hidden="true"></span>
+  </button>
+
+  <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+    <ul>
+      <li><a href="the-marshal.html">The Marshal</a></li>
+      <li><a href="#riders-bikers">Riders & Bikers</a></li>
+      <li><a href="#quest">The Quest</a></li>
+      <li><a href="#rabbit-hole">The Rabbit Hole</a></li>
+      <li><a href="#campfire">Campfire</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#buy">Buy $RPUL</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+  <main>
+    <section id="hero" class="hero" aria-label="Hero">
+      <div class="hero-content">
+        <h1 id="hero-headline"></h1>
+        <p>In a land ruled by scrolls and secrets, only those who listen to the chain can feel the Pulse</p>
+      </div>
+    </section>
+  
+    <section class="marshal-section">
+    <img src="marshal.png" alt="The Marshal" class="marshal-image" />
+    <article class="marshal-text">
+      <h2>The Marshal Watches</h2>
+      <p>The Marshal is no ordinary rabbit. Cloaked in myth, bound by code, and driven by something deeper than coin — he rides with purpose.</p>
+      <p>His hat casts more than shade. His eyes reflect more than the sun. You don’t follow the Marshal. You earn his attention.</p>
+      <a class="hero-btn" href="#riders-bikers">Meet the Riders</a>
+    </article>
+  </section>
+
+<div class="section-divider"></div>
+
+  <section class="pulse-message">
+    <div class="pulse-line pulse-line-1">
+      A mythic web3 ecosystem where your choices shape dynamic NFTs and a shared legend
+    </div>
+    <div class="pulse-line pulse-line-2">
+      Ride with the Marshal beneath the law or vanish in the dust with the Bikers
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section id="riders-bikers" class="pulse-section riders-bikers-merged">
+    <div class="pulse-faction riders">
+      <div class="pulse-images">
+        <img src="rider.png" alt="Rider 1" class="slide-in-left" />
+      </div>
+      <div class="pulse-text">
+        <h2>The Riders</h2>
+        <p>The Riders are not rebels — they are rhythm. They roam the desert not to rule, but to ride alongside the Pulse, upholding order in the shadow of the Marshal.</p>
+        <p>Each Rider may one day be chosen to become a Sheriff — a trusted executor of the Pulse. When law fades and dust rises, it is the Rider who remains calm in the chaos.</p>
+        <a class="hero-btn" href="#riders-bikers">Learn More</a>
+      </div>
+    </div>
+
+    <div class="pulse-faction bikers">
+      <div class="pulse-images">
+        <img src="biker.png" alt="Biker 1" class="slide-in-left" />
+      </div>
+      <div class="pulse-text">
+        <h2>The Bikers</h2>
+        <p>The Bikers are not defined by law — they are the pulse of rebellion. Roaming the land, they ride to disrupt, not to control.</p>
+        <p>Each Biker is driven by instinct. They are raw, untamed, and unstoppable. When they ride, the world feels their presence — igniting the flame of rebellion wherever they go.</p>
+        <a class="hero-btn" href="#quest">Begin the Quest</a>
+      </div>
+    </div>
+  </section>
+  
+<div class="section-divider"></div>
+
+  <section class="pulse-message">
+    <div class="pulse-line pulse-line-1">
+    This is a Solana-based web3 project with dynamic NFTs and community-driven lore, narrative-driven evolution
+    </div>
+    <div class="pulse-line pulse-line-2">
+      Only those ready to lose the map will find the entrance
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+  
+  <section class="rabbit-hole-section" id="rabbit-hole">
+    <img src="rabbithole.png" alt="Rabbit Hole Runner" class="zoom-in" />
+    <div class="rabbit-hole-text">
+      <h2>The Rabbit Hole</h2>
+      <p>
+        Faint, unfamiliar, and impossible to ignore. Those who follow it don’t always know why —
+        only that something beneath the surface has shifted.
+      </p>
+      <p>
+        What unfolds beyond that point cannot be explained in advance. Shapes bend, meaning flickers,
+        and the usual ways of seeing no longer hold. Some call it a test, others a passage, but what’s
+        clear is that once you’ve seen its trace, you either step forward — or spend the rest of your
+        journey wondering how deep the Rabbit Hole truly goes.
+      </p>
+      <a class="hero-btn" href="/the-rabbit-hole.html">Enter the Hole</a>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="pulsebound-section">
+    <h2>Meet the Pulsebound Rabbits</h2>
+<div class="pulsebound-gallery">
+<div class="pulsebound-item">
+  <h3 class="pulsebound-name">Sefer</h3>
+
+  <div class="pulsebound-card" data-back="Short text for Bunny 1">
+    <div class="pulsebound-inner">
+      <div class="pulsebound-face pulsebound-front">
+        <img src="sefer.png" alt="Sefer The Scrollkeeper" class="pulsebound-img" />
+      </div>
+      <div class="pulsebound-face pulsebound-back">
+        <p>Sefer — The Scrollkeeper of hidden truths.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="pulsebound-item">
+  <h3 class="pulsebound-name">Janus</h3>
+
+  <div class="pulsebound-card" data-back="Short text for Bunny 1">
+    <div class="pulsebound-inner">
+      <div class="pulsebound-face pulsebound-front">
+        <img src="janus.png" alt="Janus The Gatekeeper" class="pulsebound-img" />
+      </div>
+      <div class="pulsebound-face pulsebound-back">
+        <p>Janus — The Gatekeeper of every threshold.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="pulsebound-item">
+  <h3 class="pulsebound-name">Seidr</h3>
+
+  <div class="pulsebound-card" data-back="Short text for Bunny 1">
+    <div class="pulsebound-inner">
+      <div class="pulsebound-face pulsebound-front">
+        <img src="seidr.png" alt="Seidr The Ritual Engineer" class="pulsebound-img" />
+      </div>
+      <div class="pulsebound-face pulsebound-back">
+        <p>Seidr — The Ritual Engineer of transformations.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="pulsebound-item">
+  <h3 class="pulsebound-name">Dejitaru</h3>
+
+  <div class="pulsebound-card" data-back="Short text for Bunny 1">
+    <div class="pulsebound-inner">
+      <div class="pulsebound-face pulsebound-front">
+        <img src="dejitaru.png" alt="Dejitaru The Digital Architect" class="pulsebound-img" />
+      </div>
+      <div class="pulsebound-face pulsebound-back">
+        <p>Dejitaru — The Digital Architect of the system.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+  
+<div class="section-divider"></div>
+
+  <section class="video-cta-section">
+    <div class="video-cta-container">
+      <div class="video-box">
+        <video id="vidSmooth" playsinline preload="auto">
+          <source src="RabbitPerfect11.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="video-text">
+        <h2>Still questioning?</h2>
+        <p>
+          You've seen the signals.<br />
+          You’ve heard the Pulse whisper beneath the dust.<br /><br />
+          The Marshal doesn’t speak… but he sees.<br />
+          And when the time is right, he answers — without a word.
+        </p>
+        <a class="hero-btn" onclick="startVideo()">▶ Start the Pulse</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="social-icons">
+      <a class="social-link" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
+        <img class="social-logo" src="x-twitter.png" alt="X" width="24" height="24">
+      </a>
+
+      <a class="social-link" href="https://discord.com/" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+        <img class="social-logo" src="discord.png" alt="Discord" width="24" height="24">
+      </a>
+
+      <a class="social-link" href="https://warpcast.com/" target="_blank" rel="noopener noreferrer" aria-label="Farcaster">
+        <img class="social-logo" src="farcaster.png" alt="Farcaster" width="24" height="24">
+      </a>
+    </div>
+
+    <button class="hero-btn">Connect Wallet</button>
+    <p>© 2025 RabbitPulse – All Rights Reserved</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.menu-toggle');
+    const nav = document.getElementById('site-nav');
+
+    btn.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+  });
+</script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const txt = "The Marshal has eyes everywhere...";
+      let i = 0;
+      const h1 = document.getElementById('hero-headline');
+      h1.textContent = "";
+  
+      function typeWriter() {
+        if (i < txt.length) {
+          h1.innerHTML += txt.charAt(i);
+          i++;
+          setTimeout(typeWriter, 70);
+        }
+      }
+  
+      typeWriter();
+    });
+  </script>
+  <script>
+    // Dust Canvas
+    const canvas = document.getElementById('dustCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+  
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+  
+    for (let i = 0; i < 100; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.5,
+        speed: Math.random() * 0.5 + 0.2,
+        opacity: Math.random() * 0.4 + 0.2
+      });
+    }
+  
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.fill();
+        p.y -= p.speed;
+        if (p.y < 0) {
+          p.y = canvas.height;
+          p.x = Math.random() * canvas.width;
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+  
+    draw();
+  </script>
+  <script>
+    // Floating Glyphs
+    window.addEventListener('DOMContentLoaded', () => {
+      const glyphs = ["✶", "⚜", "☾", "φ"];
+      const container = document.querySelector('.glyph-container');
+      const count = 20;
+  
+      for (let i = 0; i < count; i++) {
+        const glyph = document.createElement('div');
+        glyph.className = 'glyph';
+        glyph.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+  
+        glyph.style.position = 'absolute';
+        glyph.style.left = `${Math.random() * 100}%`;
+        glyph.style.top = `${Math.random() * 100}%`;
+        glyph.style.fontSize = '1rem';
+        glyph.style.color = '#66ffe0';
+        glyph.style.opacity = '0';
+        glyph.style.animation = 'floatGlyph 8s ease-in-out infinite';
+        glyph.style.textShadow = '0 0 12px #66ffe0';
+        glyph.style.animationDelay = `${Math.random() * 10}s`;
+  
+        container.appendChild(glyph);
+      }
+    });
+  </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const elements = document.querySelectorAll('.slide-in-left, .zoom-in');
+
+    // Fallback: if IntersectionObserver isn't available, show everything.
+    if (!('IntersectionObserver' in window)) {
+      elements.forEach(el => el.classList.add('visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        // Some mobile browsers can be picky; treat any positive intersection as "visible".
+        if (entry.isIntersecting || entry.intersectionRatio > 0) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      // Helps trigger a bit earlier and avoids edge cases on small viewports.
+      rootMargin: '0px 0px -10% 0px'
+    });
+
+    elements.forEach(el => observer.observe(el));
+
+    // Extra safety: if an element is already in view on load, mark it visible.
+    // (Useful when landing on an anchor like #riders-bikers).
+    const revealInView = () => {
+      elements.forEach(el => {
+        if (el.classList.contains('visible')) return;
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('visible');
+      });
+    };
+
+    revealInView();
+    window.addEventListener('load', revealInView, { once: true });
+  });
+</script>
+
+    
+    <script>
+      function startVideo() {
+        const video = document.getElementById('vidSmooth');
+        const button = document.querySelector('.hero-btn[onclick="startVideo()"]');
+        if (video.paused || video.ended) {
+          video.muted = false;
+          video.play().then(() => {
+            button.textContent = "⏸️ Pause the Pulse";
+          }).catch(err => {
+            console.warn("Playback failed:", err);
+          });
+        } else {
+          video.pause();
+          button.textContent = "▶ Start the Pulse";
+        }
+      }
+    </script>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.pulsebound-card');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('is-flipped');
+      });
+    });
+  });
+</script>
+
+        
+</body>
+</html>
