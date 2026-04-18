@@ -3,7 +3,7 @@ import { PulseboundCard } from "./PulseboundCard";
 
 const RABBITS = [
   {
-    imageSrc: "/images/sefer.png",
+    imageSrc: "/images/sefer.webp",
     name: "Sefer",
     title: "The Scrollkeeper",
     icon: "📜",
@@ -11,7 +11,7 @@ const RABBITS = [
       "The Scrollkeeper of hidden truths. He reveals the world through ancient scrolls that only the worthy can read.",
   },
   {
-    imageSrc: "/images/janus.png",
+    imageSrc: "/images/janus.webp",
     name: "Janus",
     title: "The Gatekeeper",
     icon: "⚜",
@@ -19,7 +19,7 @@ const RABBITS = [
       "The Gatekeeper of every threshold. He stands where new paths become possible and old ones dissolve.",
   },
   {
-    imageSrc: "/images/seidr.png",
+    imageSrc: "/images/seidr.webp",
     name: "Seidr",
     title: "The Echo Print Engineer",
     icon: "☾",
@@ -27,7 +27,7 @@ const RABBITS = [
       "The Echo Print Engineer. He appears when permissions and ingredients can be converged into a coherent Echo Print.",
   },
   {
-    imageSrc: "/images/dejitaru.png",
+    imageSrc: "/images/dejitaru.webp",
     name: "Dejitaru",
     title: "The Digital Architect",
     icon: "φ",

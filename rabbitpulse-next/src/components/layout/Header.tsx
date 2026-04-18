@@ -43,7 +43,7 @@ export function Header() {
       <header className={`rp-header${scrolled ? " is-scrolled" : ""}`}>
         <Link href="/" className="rp-logo" aria-label="RabbitPulse home">
           <Image
-            src="/images/myLogo.png"
+            src="/images/myLogo.webp"
             alt="RabbitPulse"
             width={130}
             height={130}

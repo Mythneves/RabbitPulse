@@ -14,7 +14,7 @@ export function FactionsSection() {
       <div className="rp-factions-grid">
         <Reveal direction="left">
           <FactionCard
-            imageSrc="/images/rider.png"
+            imageSrc="/images/rider.webp"
             imageAlt="The Riders"
             tag="Order"
             tagVariant="rider"
@@ -26,7 +26,7 @@ export function FactionsSection() {
         </Reveal>
         <Reveal direction="right">
           <FactionCard
-            imageSrc="/images/biker.png"
+            imageSrc="/images/biker.webp"
             imageAlt="The Bikers"
             tag="Rebellion"
             tagVariant="biker"

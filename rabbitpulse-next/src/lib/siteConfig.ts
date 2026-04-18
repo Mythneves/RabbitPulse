@@ -34,11 +34,11 @@ export type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
-  { href: "https://x.com/", label: "X", icon: "/images/x-twitter.png" },
-  { href: "https://discord.com/", label: "Discord", icon: "/images/discord.png" },
+  { href: "https://x.com/", label: "X", icon: "/images/x-twitter.webp" },
+  { href: "https://discord.com/", label: "Discord", icon: "/images/discord.webp" },
   {
     href: "https://warpcast.com/",
     label: "Farcaster",
-    icon: "/images/farcaster.png",
+    icon: "/images/farcaster.webp",
   },
 ];

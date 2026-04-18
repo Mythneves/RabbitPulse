@@ -23,7 +23,7 @@ export function RabbitHoleSection() {
           <div className="rp-rabbit-hole-glow-2" aria-hidden />
           <div className="rp-rabbit-hole-frame">
             <Image
-              src="/images/rabbithole.png"
+              src="/images/rabbithole.webp"
               alt="Rabbit Hole Runner"
               fill
               sizes="(max-width: 1024px) 100vw, 600px"

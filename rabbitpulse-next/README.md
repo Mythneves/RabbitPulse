@@ -1,14 +1,14 @@
 # `rabbitpulse-next/` — the Next.js codebase
 
-This folder is the future home of [rabbitpulse.com](https://rabbitpulse.com). It will eventually replace the single-file `index.html` at the root of this repository. Until then, both live side-by-side.
+This folder is the home of [rabbitpulse.com](https://rabbitpulse.com). It replaces the original single-file `index.html` (deleted at the end of Phase 3).
 
-For the high-level migration plan, see [`../MIGRATION.md`](../MIGRATION.md).
+For the high-level migration plan, see [`MIGRATION.md`](https://github.com/Mythneves/RabbitPulse/blob/main/MIGRATION.md) on `main`.
 
 ---
 
 ## Status
 
-**Phase 1 — Scaffold.** Next.js + TypeScript + Tailwind CSS are wired up and the homepage shows a "Phase 1 deployed" placeholder. The look-and-feel migration starts in Phase 2.
+**Phase 4 — Asset optimization deployed.** All character / brand PNGs now ship as resized WebP via `next/image`. The hero video has a lightweight poster image and its source URL is configurable via env var so it can move to a CDN without code changes. The next phase (5) builds out the missing chapter pages.
 
 ## Stack
 
@@ -17,10 +17,11 @@ For the high-level migration plan, see [`../MIGRATION.md`](../MIGRATION.md).
 - **TypeScript 5**
 - **Tailwind CSS 4**
 - **ESLint 9**
+- **sharp** (build-time image optimization)
 
 ## Run it locally
 
-You'll need [Node.js 20 or newer](https://nodejs.org/) installed.
+You'll need [Node.js 20 or newer](https://nodejs.org/).
 
 ```bash
 cd rabbitpulse-next
@@ -32,63 +33,112 @@ Then open <http://localhost:3000>.
 
 ## Available scripts
 
-| Command         | What it does                                            |
-| --------------- | ------------------------------------------------------- |
-| `npm run dev`   | Starts the dev server with hot reload at port 3000.     |
-| `npm run build` | Builds the production bundle into `.next/`.             |
-| `npm start`     | Serves the production build (run after `npm run build`).|
-| `npm run lint`  | Runs ESLint across the project.                         |
+| Command                    | What it does                                                   |
+| -------------------------- | -------------------------------------------------------------- |
+| `npm run dev`              | Dev server with hot reload at port 3000.                       |
+| `npm run build`            | Builds the production bundle into `.next/`.                    |
+| `npm start`                | Serves the production build (run after `npm run build`).       |
+| `npm run lint`             | Runs ESLint across the project.                                |
+| `npm run optimize:images`  | Resizes + converts every PNG in `public/images/` to WebP.       |
 
 ## Folder layout
 
 ```
 rabbitpulse-next/
 ├─ src/
-│  └─ app/
-│     ├─ layout.tsx     # Wraps every page (fonts, <head>, body shell)
-│     ├─ page.tsx       # Homepage (the placeholder you see now)
-│     └─ globals.css    # Tailwind import + RabbitPulse design tokens
-├─ public/              # Static assets served as-is at the site root
+│  ├─ app/
+│  │  ├─ layout.tsx          # <html>/<body>, fonts, header, footer, ambient effects, providers
+│  │  ├─ page.tsx            # Homepage — composes hero + chapters + video CTA
+│  │  └─ globals.css         # Tailwind + design tokens + all rp-prefixed component CSS
+│  ├─ components/
+│  │  ├─ effects/            # CustomCursor, ScrollProgress, DustCanvas, FloatingGlyphs, NoiseOverlay, Reveal
+│  │  ├─ home/               # Hero, OriginSection, FactionsSection, RabbitHoleSection, PulseboundSection, VideoCTA, ...
+│  │  ├─ layout/             # Header, Footer
+│  │  ├─ ui/                 # Small reusable bits (ArrowIcon)
+│  │  └─ wallet/             # WalletModal + WalletModalContext (real adapter lands in Phase 6)
+│  └─ lib/
+│     ├─ siteConfig.ts       # Single source of truth for nav links + socials
+│     └─ media.ts            # Configurable video URL + poster
+├─ public/
+│  └─ images/                # Optimized WebP assets (regenerate with npm run optimize:images)
+├─ scripts/
+│  └─ optimize-images.mjs    # sharp-based PNG → WebP pipeline
 ├─ next.config.ts
-├─ tailwind / postcss   # Tailwind v4 config lives in postcss.config.mjs
 ├─ tsconfig.json
 ├─ eslint.config.mjs
+├─ postcss.config.mjs        # Tailwind v4 lives here
+├─ .env.local.example        # Template for required env vars
 └─ package.json
 ```
 
-The `MIGRATION.md` in the parent folder describes how this tree will grow over the next phases (`components/`, `lib/`, per-chapter routes, etc.).
-
 ## Design tokens
 
-The original `index.html` uses a small palette built around two accents on a near-black background. Those values are now centralized as CSS variables in `src/app/globals.css` and exposed to Tailwind, so you can write `text-purple`, `bg-aqua`, `bg-bg`, `text-text`, `text-text-muted` directly.
+The original `index.html` uses a small palette built around two accents on a near-black background. Those values are centralized as CSS variables in `src/app/globals.css` and exposed to Tailwind, so you can write `text-purple`, `bg-aqua`, `bg-bg`, `text-text`, `text-text-muted` directly.
 
-| Token             | Value                       | Use                          |
-| ----------------- | --------------------------- | ---------------------------- |
-| `--bg`            | `#060608`                   | Page background              |
-| `--text`          | `#ffffff`                   | Primary text                 |
-| `--text-muted`    | `rgba(255,255,255,0.55)`    | Secondary text               |
-| `--purple`        | `#a958ff`                   | Brand accent (warm)          |
-| `--aqua`          | `#66ffe0`                   | Brand accent (cool)          |
+| Token            | Value                       | Use                  |
+| ---------------- | --------------------------- | -------------------- |
+| `--bg`           | `#060608`                   | Page background      |
+| `--text`         | `#ffffff`                   | Primary text         |
+| `--text-muted`   | `rgba(255,255,255,0.55)`    | Secondary text       |
+| `--purple`       | `#a958ff`                   | Brand accent (warm)  |
+| `--aqua`         | `#66ffe0`                   | Brand accent (cool)  |
+
+## Adding or replacing images
+
+Drop a new PNG in `public/images/` and add an entry to the `RECIPES` map in [`scripts/optimize-images.mjs`](./scripts/optimize-images.mjs), then:
+
+```bash
+npm run optimize:images
+```
+
+The script will resize the longer edge to the recipe's `maxWidth`, convert to WebP at the requested quality, write the `.webp` next to the source, and **delete the source PNG**. Reference the `.webp` in your component (e.g. `/images/marshal.webp`).
+
+## The hero video
+
+The 22 MB `sefer-video.mp4` should not stay in `public/` long term. It lacks adaptive streaming, ships as a single blob, and bloats `git clone`.
+
+The recommended path is **Vercel Blob** (cheapest + zero-config if you already use Vercel). Steps:
+
+1. In the Vercel dashboard for this project: **Storage → Create → Blob**.
+2. Upload `sefer-video.mp4` (the dashboard has a UI for this; you can also use the `@vercel/blob` CLI).
+3. Copy the public URL (looks like `https://<store>.public.blob.vercel-storage.com/sefer-video.mp4`).
+4. Set `NEXT_PUBLIC_SEFER_VIDEO_URL` to that URL:
+   - Locally: in `.env.local`.
+   - Production: Project Settings → Environment Variables.
+5. Once the production deploy works, delete the local `public/images/sefer-video.mp4` (separate commit) so future `git clone`s stay light.
+
+The `<video>` tag uses `preload="none"` and a tiny WebP poster (`sefer-poster.webp`, ~104 KB) so visitors who never click play download neither bytes nor a single video segment.
+
+Alternative hosts:
+
+| Host             | Cost                                        | Pros                              | Cons                               |
+| ---------------- | ------------------------------------------- | --------------------------------- | ---------------------------------- |
+| **Vercel Blob**  | Generous free tier; storage by GB           | Zero-config with your existing Vercel project | Just static delivery, no transcoding |
+| **Cloudinary**   | Generous free tier; pay for transformations | On-the-fly resize / format / quality | Slightly more setup |
+| **Mux**          | Pay-per-minute streamed                     | True HLS adaptive streaming, analytics | Most expensive; overkill at this scale |
+
+For one short hero video, Vercel Blob is the right answer.
 
 ## Deploying to Vercel
 
 This folder is **not** the repo root, so when you import the repo into Vercel you must set the **Root Directory** to `rabbitpulse-next`. Everything else can stay at defaults.
 
-1. In the Vercel dashboard, click **Add New… → Project**.
-2. Select the `Mythneves/RabbitPulse` repository.
-3. Under **Root Directory**, click **Edit** and set it to `rabbitpulse-next`.
-4. Framework Preset should auto-detect as **Next.js**.
-5. Build/Output settings: leave defaults.
-6. Click **Deploy**.
+1. Vercel dashboard → **Add New… → Project** → import `Mythneves/RabbitPulse`.
+2. Under **Root Directory**, click **Edit** → `rabbitpulse-next`.
+3. Framework Preset auto-detects as **Next.js**. Build/Output: defaults.
+4. Click **Deploy**.
 
-After the first deploy, every push to any branch in this repo will get its own preview URL automatically.
+Every push to any branch then gets its own preview URL.
 
 ### Environment variables
 
-None are required for Phase 1. Future phases will introduce:
+None are strictly required to build, but for production you'll want:
 
-- `NEXT_PUBLIC_SOLANA_NETWORK` — `devnet` or `mainnet-beta` (Phase 6)
-- `NEXT_PUBLIC_SOLANA_RPC_URL` — your Helius / QuickNode RPC URL (Phase 6)
+| Variable                      | Phase | Purpose                                                |
+| ----------------------------- | ----- | ------------------------------------------------------ |
+| `NEXT_PUBLIC_SEFER_VIDEO_URL` | 4     | CDN URL for the hero video (Vercel Blob / Cloudinary). |
+| `NEXT_PUBLIC_SOLANA_NETWORK`  | 6     | `devnet` or `mainnet-beta`.                            |
+| `NEXT_PUBLIC_SOLANA_RPC_URL`  | 6     | Helius / QuickNode RPC endpoint.                       |
 
 A template lives at [`.env.local.example`](./.env.local.example).
 
@@ -97,9 +147,9 @@ A template lives at [`.env.local.example`](./.env.local.example).
 | Phase | What lands in this folder                                                                  |
 | ----- | ------------------------------------------------------------------------------------------ |
 | 1 ✅  | Scaffold + placeholder homepage                                                            |
-| 2     | `app/layout.tsx` gains real header/footer; global cursor, dust canvas, glyphs, scroll bar  |
-| 3     | Homepage sections ported one-by-one; `index.html` deleted at the end                       |
-| 4     | All `<img>` → `<Image>`; PNG compression; video moved to a CDN                             |
+| 2 ✅  | Header / footer / global cursor / dust canvas / glyphs / scroll bar                        |
+| 3 ✅  | Homepage sections ported one-by-one; legacy `index.html` deleted                           |
+| 4 ✅  | All images → WebP via `<Image>`; video poster + env-configurable CDN URL                   |
 | 5     | New chapter pages (`/the-marshal`, `/riders-bikers`, `/rabbit-hole`, etc.)                 |
 | 6     | Solana wallet adapter, devnet connection                                                   |
 | 7     | Dynamic NFT logic (re-planned in `NFT_PLAN.md` before starting)                            |
