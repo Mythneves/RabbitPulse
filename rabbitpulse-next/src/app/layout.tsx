@@ -9,6 +9,8 @@ import { ScrollProgress } from "@/components/effects/ScrollProgress";
 import { DustCanvas } from "@/components/effects/DustCanvas";
 import { FloatingGlyphs } from "@/components/effects/FloatingGlyphs";
 import { NoiseOverlay } from "@/components/effects/NoiseOverlay";
+import { WalletModalProvider } from "@/components/wallet/WalletModalContext";
+import { WalletModal } from "@/components/wallet/WalletModal";
 import { siteConfig } from "@/lib/siteConfig";
 
 const unbounded = Unbounded({
@@ -68,24 +70,27 @@ export default function RootLayout({
       className={`${unbounded.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text font-sans">
-        {/* Ambient layers — sit behind everything else */}
-        <DustCanvas />
-        <FloatingGlyphs />
+        <WalletModalProvider>
+          {/* Ambient layers — sit behind everything else */}
+          <DustCanvas />
+          <FloatingGlyphs />
 
-        {/* Page chrome */}
-        <ScrollProgress />
-        <Header />
+          {/* Page chrome */}
+          <ScrollProgress />
+          <Header />
 
-        {/* Page content */}
-        <div className="relative z-10 flex flex-1 flex-col">
-          {children}
-        </div>
+          {/* Page content */}
+          <div className="relative z-10 flex flex-1 flex-col">
+            {children}
+          </div>
 
-        <Footer />
+          <Footer />
 
-        {/* On top of everything */}
-        <NoiseOverlay />
-        <CustomCursor />
+          {/* Overlays */}
+          <WalletModal />
+          <NoiseOverlay />
+          <CustomCursor />
+        </WalletModalProvider>
       </body>
     </html>
   );
