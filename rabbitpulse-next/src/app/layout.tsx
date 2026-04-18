@@ -9,6 +9,7 @@ import { ScrollProgress } from "@/components/effects/ScrollProgress";
 import { DustCanvas } from "@/components/effects/DustCanvas";
 import { FloatingGlyphs } from "@/components/effects/FloatingGlyphs";
 import { NoiseOverlay } from "@/components/effects/NoiseOverlay";
+import { WalletAdapterProviders } from "@/components/wallet/WalletAdapterProviders";
 import { WalletModalProvider } from "@/components/wallet/WalletModalContext";
 import { WalletModal } from "@/components/wallet/WalletModal";
 import { siteConfig } from "@/lib/siteConfig";
@@ -70,7 +71,8 @@ export default function RootLayout({
       className={`${unbounded.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text font-sans">
-        <WalletModalProvider>
+        <WalletAdapterProviders>
+         <WalletModalProvider>
           {/* Ambient layers — sit behind everything else */}
           <DustCanvas />
           <FloatingGlyphs />
@@ -90,7 +92,8 @@ export default function RootLayout({
           <WalletModal />
           <NoiseOverlay />
           <CustomCursor />
-        </WalletModalProvider>
+         </WalletModalProvider>
+        </WalletAdapterProviders>
       </body>
     </html>
   );

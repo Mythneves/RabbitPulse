@@ -1,12 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { ArrowIcon } from "@/components/ui/ArrowIcon";
-import { useWalletModal } from "@/components/wallet/WalletModalContext";
+import { ConnectWalletButton } from "@/components/wallet/ConnectWalletButton";
 
 export function Hero() {
-  const { open } = useWalletModal();
-
   return (
     <section
       id="hero"
@@ -24,10 +19,7 @@ export function Hero() {
         Your choices will be written forever on chain.
       </p>
       <div className="rp-hero-actions">
-        <button type="button" onClick={open} className="rp-btn-primary">
-          Connect Wallet
-          <ArrowIcon />
-        </button>
+        <ConnectWalletButton />
         <Link href="/the-marshal" className="rp-btn-ghost">
           Discover the Lore
         </Link>
