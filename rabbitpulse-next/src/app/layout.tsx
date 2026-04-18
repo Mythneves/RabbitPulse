@@ -2,6 +2,15 @@ import type { Metadata, Viewport } from "next";
 import { Unbounded } from "next/font/google";
 import "./globals.css";
 
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { CustomCursor } from "@/components/effects/CustomCursor";
+import { ScrollProgress } from "@/components/effects/ScrollProgress";
+import { DustCanvas } from "@/components/effects/DustCanvas";
+import { FloatingGlyphs } from "@/components/effects/FloatingGlyphs";
+import { NoiseOverlay } from "@/components/effects/NoiseOverlay";
+import { siteConfig } from "@/lib/siteConfig";
+
 const unbounded = Unbounded({
   variable: "--font-unbounded",
   subsets: ["latin"],
@@ -10,25 +19,24 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rabbitpulse.com"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "RabbitPulse – The Legend Begins",
     template: "%s | RabbitPulse",
   },
   description:
     "RabbitPulse is a Solana-based dynamic NFT ecosystem where your choices shape evolving rabbits, factions, and a living legend. Ride with the Marshal or vanish with the Bikers.",
-  applicationName: "RabbitPulse",
+  applicationName: siteConfig.name,
   appleWebApp: {
     capable: true,
-    title: "RabbitPulse",
+    title: siteConfig.name,
     statusBarStyle: "black-translucent",
   },
   openGraph: {
     title: "RabbitPulse – The Legend Begins",
-    description:
-      "A mythic Solana web3 universe of dynamic NFTs, faction warfare, and deep narrative lore. Only those who listen to the chain will feel the Pulse.",
-    url: "https://rabbitpulse.com",
-    siteName: "RabbitPulse",
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     type: "website",
   },
   twitter: {
@@ -38,7 +46,7 @@ export const metadata: Metadata = {
       "A mythic Solana web3 universe where choices shape dynamic NFTs and a shared legend.",
   },
   alternates: {
-    canonical: "https://rabbitpulse.com",
+    canonical: siteConfig.url,
   },
 };
 
@@ -60,7 +68,24 @@ export default function RootLayout({
       className={`${unbounded.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text font-sans">
-        {children}
+        {/* Ambient layers — sit behind everything else */}
+        <DustCanvas />
+        <FloatingGlyphs />
+
+        {/* Page chrome */}
+        <ScrollProgress />
+        <Header />
+
+        {/* Page content */}
+        <div className="relative z-10 flex flex-1 flex-col">
+          {children}
+        </div>
+
+        <Footer />
+
+        {/* On top of everything */}
+        <NoiseOverlay />
+        <CustomCursor />
       </body>
     </html>
   );
