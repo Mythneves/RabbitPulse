@@ -8,7 +8,7 @@ For the high-level migration plan, see [`MIGRATION.md`](https://github.com/Mythn
 
 ## Status
 
-**Phase 4 — Asset optimization deployed.** All character / brand PNGs now ship as resized WebP via `next/image`. The hero video has a lightweight poster image and its source URL is configurable via env var so it can move to a CDN without code changes. The next phase (5) builds out the missing chapter pages.
+**Phase 6 — Real Solana wallet adapter deployed.** Phantom / Solflare / Backpack / any Wallet-Standard wallet auto-discovers; Ledger is wired explicitly. The "Connect Wallet" button on the Hero and Buy pages now does a real `select() + connect()`. Defaults to **devnet** so an unconfigured preview never talks to mainnet. A diagnostics page lives at `/wallet-test`.
 
 ## Stack
 
@@ -137,8 +137,16 @@ None are strictly required to build, but for production you'll want:
 | Variable                      | Phase | Purpose                                                |
 | ----------------------------- | ----- | ------------------------------------------------------ |
 | `NEXT_PUBLIC_SEFER_VIDEO_URL` | 4     | CDN URL for the hero video (Vercel Blob / Cloudinary). |
-| `NEXT_PUBLIC_SOLANA_NETWORK`  | 6     | `devnet` or `mainnet-beta`.                            |
-| `NEXT_PUBLIC_SOLANA_RPC_URL`  | 6     | Helius / QuickNode RPC endpoint.                       |
+| `NEXT_PUBLIC_SOLANA_NETWORK`  | 6     | `devnet` or `mainnet-beta`. Defaults to `devnet`.      |
+| `NEXT_PUBLIC_SOLANA_RPC_URL`  | 6     | Helius / QuickNode RPC endpoint. Falls back to public RPC. |
+
+### Wallet — first-time setup
+
+1. Create a free [Helius](https://www.helius.dev/) account and grab the **devnet** RPC URL it gives you.
+2. Locally, copy `.env.local.example` to `.env.local` and paste the URL into `NEXT_PUBLIC_SOLANA_RPC_URL`.
+3. In Vercel: **Project Settings → Environment Variables**, add the same two variables (`NEXT_PUBLIC_SOLANA_NETWORK=devnet`, `NEXT_PUBLIC_SOLANA_RPC_URL=<helius url>`). Apply to all environments.
+4. Visit `/wallet-test` (after a redeploy) to verify the wiring. Connect a wallet (Phantom recommended), confirm the network, address, and SOL balance render. Get free devnet SOL at [`https://faucet.solana.com`](https://faucet.solana.com).
+5. When you're ready for mainnet, change `NEXT_PUBLIC_SOLANA_NETWORK` to `mainnet-beta` and the URL to your Helius mainnet endpoint.
 
 A template lives at [`.env.local.example`](./.env.local.example).
 
@@ -150,6 +158,6 @@ A template lives at [`.env.local.example`](./.env.local.example).
 | 2 ✅  | Header / footer / global cursor / dust canvas / glyphs / scroll bar                        |
 | 3 ✅  | Homepage sections ported one-by-one; legacy `index.html` deleted                           |
 | 4 ✅  | All images → WebP via `<Image>`; video poster + env-configurable CDN URL                   |
-| 5     | New chapter pages (`/the-marshal`, `/riders-bikers`, `/rabbit-hole`, etc.)                 |
-| 6     | Solana wallet adapter, devnet connection                                                   |
+| 5 ✅  | New chapter pages (`/the-marshal`, `/riders-bikers`, `/rabbit-hole`, etc.)                 |
+| 6 ✅  | Solana wallet adapter, devnet connection, `/wallet-test` diagnostics                       |
 | 7     | Dynamic NFT logic (re-planned in `NFT_PLAN.md` before starting)                            |

@@ -2032,3 +2032,140 @@ section {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===================== WALLET — Phase 6 additions ===================== */
+.rp-wallet-empty {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1rem;
+}
+
+.rp-wallet-btn:disabled {
+  opacity: 0.5;
+  cursor: progress;
+  transform: none;
+}
+
+.rp-wallet-btn-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.rp-wallet-status {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 100px;
+  font-weight: 700;
+}
+
+.rp-wallet-status-ready {
+  color: var(--aqua);
+  background: rgba(102, 255, 224, 0.08);
+  border: 1px solid rgba(102, 255, 224, 0.3);
+}
+
+.rp-wallet-status-install {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.rp-wallet-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.rp-btn-disconnect-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 0.25rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* ===================== WALLET TEST PANEL ===================== */
+.rp-wallet-test {
+  max-width: 720px;
+}
+
+.rp-wallet-test-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.7rem 1.5rem;
+  margin: 0 0 2rem;
+}
+
+.rp-wallet-test-grid dt {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  align-self: center;
+}
+
+.rp-wallet-test-grid dd {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text);
+  font-weight: 300;
+  align-self: center;
+  word-break: break-all;
+}
+
+.rp-wallet-test-grid code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+}
+
+.rp-wallet-test-address {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.rp-wallet-test-copy {
+  background: transparent;
+  border: 1px solid rgba(102, 255, 224, 0.35);
+  color: var(--aqua);
+  font-family: inherit;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.rp-wallet-test-copy:hover {
+  background: rgba(102, 255, 224, 0.1);
+}
+
+.rp-status-ok  { color: var(--aqua); }
+.rp-status-err { color: #ff6b6b; }
+.rp-status-idle { color: var(--text-muted); }
+
+@media (max-width: 560px) {
+  .rp-wallet-test-grid {
+    grid-template-columns: 1fr;
+    gap: 0.3rem 0;
+  }
+  .rp-wallet-test-grid dt {
+    margin-top: 0.6rem;
+  }
+}
