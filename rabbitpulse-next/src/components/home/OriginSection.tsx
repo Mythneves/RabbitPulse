@@ -19,7 +19,7 @@ export function OriginSection() {
       <div className="rp-origin-images">
         <div className="rp-origin-side rp-origin-left">
           <Image
-            src="/images/marshal.png"
+            src="/images/marshal.webp"
             alt="Malko — The Marshal"
             fill
             sizes="(max-width: 860px) 50vw, 430px"
@@ -28,7 +28,7 @@ export function OriginSection() {
           <div className="rp-origin-overlay rp-origin-overlay-left" aria-hidden />
           <div className="rp-origin-badge rp-origin-badge-left">
             <Image
-              src="/images/Spurbound_no_bg.png"
+              src="/images/Spurbound_no_bg.webp"
               alt="Riders flag"
               width={70}
               height={70}
@@ -42,7 +42,7 @@ export function OriginSection() {
 
         <div className="rp-origin-side rp-origin-right">
           <Image
-            src="/images/cacique.png"
+            src="/images/cacique.webp"
             alt="Cacique — The Black Stallion"
             fill
             sizes="(max-width: 860px) 50vw, 430px"
@@ -51,7 +51,7 @@ export function OriginSection() {
           <div className="rp-origin-overlay rp-origin-overlay-right" aria-hidden />
           <div className="rp-origin-badge rp-origin-badge-right">
             <Image
-              src="/images/bikers_no_bg.png"
+              src="/images/bikers_no_bg.webp"
               alt="Bikers patch"
               width={70}
               height={70}

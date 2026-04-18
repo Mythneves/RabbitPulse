@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/effects/Reveal";
+import { SEFER_VIDEO_POSTER, SEFER_VIDEO_URL } from "@/lib/media";
 
 export function VideoCTA() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -73,10 +74,11 @@ export function VideoCTA() {
           <video
             ref={videoRef}
             playsInline
-            preload="metadata"
+            preload="none"
+            poster={SEFER_VIDEO_POSTER}
             className="rp-video-el"
           >
-            <source src="/images/sefer-video.mp4" type="video/mp4" />
+            <source src={SEFER_VIDEO_URL} type="video/mp4" />
           </video>
           <div className="rp-video-frame-border" aria-hidden />
           <div
