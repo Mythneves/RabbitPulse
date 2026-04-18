@@ -1710,3 +1710,325 @@ section {
     transform: translateY(0);
   }
 }
+
+/* ===================== CHAPTER PAGES — shared primitives ===================== */
+.rp-page-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding:
+    calc(var(--header-height) + clamp(2rem, 6vw, 5rem))
+    clamp(1.5rem, 4vw, 4rem)
+    clamp(4rem, 8vw, 7rem);
+}
+
+.rp-page-hero {
+  text-align: center;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.rp-page-hero-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rp-page-hero-title {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin: 0 0 1.25rem;
+}
+
+.rp-page-hero-sub {
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.85;
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+.rp-lore-section {
+  max-width: 720px;
+  margin: clamp(3rem, 6vw, 5rem) auto;
+}
+
+.rp-lore-kicker {
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: var(--aqua);
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.rp-lore-heading {
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 1.4rem;
+}
+
+.rp-lore-body p {
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.9;
+  margin: 0 0 1.1rem;
+}
+
+.rp-lore-body p strong {
+  color: var(--text);
+  font-weight: 400;
+}
+
+.rp-lore-body ul {
+  margin: 0.5rem 0 1.4rem;
+  padding-left: 1.2rem;
+  list-style: none;
+}
+
+.rp-lore-body li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: 0.6rem;
+}
+
+.rp-lore-body li::before {
+  content: '◈';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--aqua);
+  font-size: 0.7rem;
+  line-height: 1.95rem;
+}
+
+.rp-pull-quote {
+  max-width: 760px;
+  margin: clamp(4rem, 8vw, 6rem) auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 3rem);
+  border-left: 2px solid var(--purple);
+  background: linear-gradient(
+    90deg,
+    rgba(169, 88, 255, 0.08) 0%,
+    transparent 80%
+  );
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.rp-pull-quote blockquote {
+  margin: 0;
+}
+
+.rp-pull-quote p {
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0;
+}
+
+.rp-pull-quote footer {
+  margin-top: 1rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--aqua);
+  font-style: normal;
+}
+
+.rp-back-to-home {
+  text-align: center;
+  margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+.rp-back-to-home a {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.rp-back-to-home a:hover {
+  color: var(--aqua);
+}
+
+/* ===================== CHAPTER PAGES — specific layouts ===================== */
+.rp-character-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  max-width: 900px;
+  margin: clamp(2rem, 5vw, 4rem) auto;
+}
+
+.rp-character-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.rp-character-card-img {
+  position: relative;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+}
+
+.rp-character-card-img img {
+  object-fit: cover;
+  object-position: center 5%;
+}
+
+.rp-character-card-body {
+  padding: 1.5rem 1.5rem 1.75rem;
+}
+
+.rp-character-card-name {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.25rem;
+}
+
+.rp-character-card-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--aqua);
+  margin: 0 0 0.9rem;
+}
+
+.rp-character-card-body p {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.rp-character-card.is-biker .rp-character-card-title {
+  color: var(--purple);
+}
+
+.rp-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 1.5rem auto 0;
+}
+
+.rp-tier-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.25rem;
+}
+
+.rp-tier-card h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.25rem;
+  background: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rp-tier-card .rp-tier-meta {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.rp-tier-card p {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.rp-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.rp-buy-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: clamp(2rem, 5vw, 3rem) auto;
+}
+
+.rp-buy-stat {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+}
+
+.rp-buy-stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
+}
+
+.rp-buy-stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+  background: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rp-buy-stat-value-muted {
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin: 0;
+}
+
+.rp-disclaimer {
+  text-align: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+@media (max-width: 720px) {
+  .rp-character-grid {
+    grid-template-columns: 1fr;
+  }
+}
