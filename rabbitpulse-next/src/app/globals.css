@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* ===================== RabbitPulse design tokens =====================
+ * Mirrors the CSS variables from the original index.html so the new
+ * Next.js codebase shares the exact same palette and feel.
+ */
+:root {
+  --purple: #a958ff;
+  --purple-dim: rgba(169, 88, 255, 0.15);
+  --aqua: #66ffe0;
+  --aqua-dim: rgba(102, 255, 224, 0.12);
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.55);
+  --bg: #060608;
+}
+
+/* Expose the tokens above to Tailwind v4 so we can write
+ * className="bg-bg text-text text-purple text-aqua" etc.
+ */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-purple: var(--purple);
+  --color-aqua: var(--aqua);
+  --font-sans: var(--font-unbounded);
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ===================== Phase 1 placeholder animations ===================== */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+}
+
+.rp-glow-purple {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.rp-glow-aqua {
+  animation: pulseGlow 5s ease-in-out infinite 1s;
+}
+
+.rp-drift {
+  animation: drift 12s ease-in-out infinite;
+}
